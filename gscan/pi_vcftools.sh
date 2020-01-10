@@ -6,33 +6,26 @@ set -u
 ## Command-line arguments:
 VCF_ID=$1
 WINDOW_SIZE=$2
+VCF_DIR=$3
+PI_DIR=$4
 
-VCFDIR=/proj/cmarlab/users/jelmer/cichlids/seqdata/vcf_split
-VCF=$VCFDIR/$VCF_ID.SNPs.GATKfilt.biallelic.vcf.gz
-PI_DIR=/proj/cmarlab/users/jelmer/cichlids/analyses/sumstats/pi
+## Process:
+VCF=$VCF_DIR/$VCF_ID.vcf.gz
 
+## Report:
 date
 echo "SCRIPT: pi_vcftools.sh"
 echo "VCF: $VCF"
 echo "Window size: $WINDOW_SIZE"
 
-#printf "\n \n"
-#echo "Calculating pi per site..."
+## Calculate pi:
+#echo -e "\n\n####: Calculating pi per site..."
 #vcftools --gzvcf $VCF --site-pi --out $PI_DIR/$VCF_ID
 
-printf "\n \n"
-echo "Calculating pi per window..."
+echo -e "\n\n####: Calculating pi per window..."
 vcftools --gzvcf $VCF --window-pi $WINDOW_SIZE --out $PI_DIR/$VCF_ID
 
+## Report:
 printf "\n \n"
-echo "Done with script"
+echo -e "\n\n####: pi_vcftools.sh: Done with script."
 date
-
-
-
-#########################################################
-## Copying files:
-#scp jelmerp@killdevil.unc.edu:/proj/cmarlab/users/jelmer/cichlids/analyses/sumstats/pi/* /home/jelmer/Dropbox/sc_fish/cichlids/analyses/sumstats/pi/
-
-## Usage:
-#scripts/sumstats/pi_vcftools.sh Cdec 50000

@@ -3,17 +3,18 @@ set -e
 set -o pipefail
 set -u
 
-GENO=$1 #seqdata/variants_otherFormats/geno/EjaC.Dstat.NC_022205.1.DP5.geno.gz
-RUN_NAME=$2 #NC_022205.1.test
-WINSIZE=$3 #10000000
-MINSITES=$4 #10000
-NCORES=$5 
-OUTGROUP=$6 #TguiMA,TguiMA2,TguiMA4
-INDS=$7 #Cdec088,Cdec328,Ceja262,Ceja408,Cfus085,Cfus350,Cfus503,Ckot383,Ckot499,TguiNG2,TguiNG5,SgalMA1,TguiMA,TguiMA2,TguiMA4
+GENO=$1
+OUTDIR=$2
+RUN_NAME=$3
+WINSIZE=$4
+MINSITES=$5
+NCORES=$6 
+OUTGROUP=$7
+INDS=$8
 
 module load python/2.7.1
-RAXML=/proj/cmarlab/users/jelmer/software/standard-RAxML-master/raxmlHPC-SSE3
-OUTDIR=/proj/cmarlab/users/jelmer/cichlids/analyses/raxml/output_byWindow
+RAXML=xx
+
 
 date
 echo "Script: raxml.window_run.sh"
@@ -35,7 +36,3 @@ rm $OUTDIR/$RUN_NAME.trees.gz
 printf "\n\n"
 echo "Done with script."
 date
-
-#python scripts/trees/smartin/raxml_sliding_windows.py -g $GENO -p $RUN_NAME --log raxml.log --raxml $RAXML --genoFormat phased \
-#	--windType coordinate --windSize $WINSIZE --stepSize $WINSIZE --minSites $MINSITES \
-#	--model GTRCAT --outgroup $OUTGROUP --individuals $INDS
