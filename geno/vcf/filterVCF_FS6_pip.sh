@@ -8,7 +8,7 @@ set -u
 ################################################################################
 
 ## Scripts:
-SCRIPT_FILTER=/datacommons/yoderlab/users/jelmer/scripts/geno/filtervcf/filterVCF_FS6.sh
+SCRIPT_FILTER=/datacommons/yoderlab/users/jelmer/scripts/geno/vcf/filterVCF_FS6.sh
 
 ## Command-line arguments:
 INPUT_NAME=$1

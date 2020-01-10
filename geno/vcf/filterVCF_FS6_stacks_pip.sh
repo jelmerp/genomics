@@ -7,7 +7,7 @@ set -u
 #### SET-UP ####
 ################################################################################
 ## Scripts:
-SCRIPT_FILTER=/datacommons/yoderlab/users/jelmer/scripts/geno/filtervcf/filterVCF_FS6_stacks.sh
+SCRIPT_FILTER=/datacommons/yoderlab/users/jelmer/scripts/geno/vcf/filterVCF_FS6_stacks.sh
 BGZIP=/datacommons/yoderlab/programs/htslib-1.6/bgzip
 TABIX=/datacommons/yoderlab/programs/htslib-1.6/tabix
 

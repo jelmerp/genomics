@@ -9,7 +9,7 @@ set -u
 ## Scripts:
 SCR_GENO=/datacommons/yoderlab/users/jelmer/scripts/geno/gatk/gatk2_jointgeno.sh
 SCR_MERGEVCFS=/datacommons/yoderlab/users/jelmer/scripts/geno/gatk/gatk3_mergevcfs.sh
-SCR_FILTER=/datacommons/yoderlab/users/jelmer/scripts/geno/filtervcf/filterVCF_FS6_pip.sh
+SCR_FILTER=/datacommons/yoderlab/users/jelmer/scripts/geno/vcf/filterVCF_FS6_pip.sh
 
 ## Command-line args:
 FILE_ID=$1

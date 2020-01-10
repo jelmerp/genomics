@@ -22,7 +22,7 @@ SCR_DEDUP=/datacommons/yoderlab/users/jelmer/scripts/geno/bam/bam4_dedup.sh
 SCR_VARDISC=/datacommons/yoderlab/users/jelmer/scripts/geno/gatk/gatk1_vardisc.sh
 SCR_GENO=/datacommons/yoderlab/users/jelmer/scripts/geno/gatk/gatk2_jointgeno.sh
 
-SCR_FILTER=/datacommons/yoderlab/users/jelmer/scripts/geno/filtervcf/filterVCF_FS6.sh
+SCR_FILTER=/datacommons/yoderlab/users/jelmer/scripts/geno/vcf/filterVCF_FS6.sh
 
 SCR_QCVCF=/datacommons/yoderlab/users/jelmer/scripts/qc/qc_vcf.sh
 SCR_QCBAM=/datacommons/yoderlab/users/jelmer/scripts/qc/qc_bam.sh

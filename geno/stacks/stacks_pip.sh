@@ -9,7 +9,7 @@ set -u
 ## Software and scripts:
 SCR_GSTACKS=/datacommons/yoderlab/users/jelmer/scripts/geno/stacks/runGstacks.sh
 SCR_POPSTACKS=/datacommons/yoderlab/users/jelmer/scripts/geno/stacks/runPopstacks.sh
-SCR_FILTERVCF=/datacommons/yoderlab/users/jelmer/scripts/geno/filtervcf/filterVCF_FS6_stacks_pip.sh
+SCR_FILTERVCF=/datacommons/yoderlab/users/jelmer/scripts/geno/vcf/filterVCF_FS6_stacks_pip.sh
 SCR_STACKSFAPIP=/datacommons/yoderlab/users/jelmer/scripts/geno/stacks/stacksfa_pip.sh
 chmod -R +x /datacommons/yoderlab/users/jelmer/scripts/*
 
