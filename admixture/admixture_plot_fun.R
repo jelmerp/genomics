@@ -1,26 +1,34 @@
-#### GET K-VALUES FOR WHICH OUTPUT FILES ARE PRESENT ###########################
+#### LOAD PACKAGES -------------------------------------------------------------
+library(pacman)
+packages <- c('gridExtra', 'grid', 'RColorBrewer', 'scales',
+              'ggpubr', 'cowplot', 'ggforce', 'patchwork',
+              'forcats', 'here', 'tidyverse')
+p_load(char = packages, install = TRUE)
+
+
+#### GET K-VALUES FOR WHICH OUTPUT FILES ARE PRESENT ---------------------------
 get.Ks <- function(setID,
                    filedir = here('analyses/admixture/output')) {
-  cat("#### Filedir:", filedir, '\n')
+  cat("## Filedir:", filedir, '\n')
 
   Q.files <- list.files(filedir, pattern = paste0(setID, '.[0-9+].Q'))
   K <- as.integer(gsub(paste0(setID, '.*\\.([0-9]+)\\.Q$'), '\\1', Q.files))
 
-  cat("#### K's found:\n")
+  cat("## K's found:\n")
   print(K)
 
   return(K)
 }
 
 
-##### K CROSS-VALIDATION PLOT ##################################################
+#### K CROSS-VALIDATION PLOT --------------------------------------------------
 k.plot <- function(setID,
                    plot.title = '',
                    filedir = here('analyses/admixture/output/'),
                    fig.save = FALSE,
                    figdir = 'analyses/admixture/figures/') {
 
-  K <- get.Ks(setID)
+  K <- get.Ks(setID, filedir = filedir)
   CV.files <- list.files(filedir, pattern = paste0(setID, '.[0-9+].admixtureOutLog.txt'))
 
   get.CV <- function(K) {
@@ -66,7 +74,7 @@ k.plot <- function(setID,
   if(fig.save == TRUE) {
     if(!dir.exists(figdir)) dir.create(figdir, recursive = TRUE)
     figfile <- paste0(figdir, '/', setID, '.CVplot.png')
-    cat('##### Saving to file:', figfile, '\n')
+    cat('## Saving to file:', figfile, '\n')
     ggsave(figfile, p, width = 5, height = 5)
     if(file.open == TRUE) system(paste("xdg-open", figfile))
   }
@@ -75,7 +83,7 @@ k.plot <- function(setID,
 }
 
 
-#### GET Q-DATAFRAME ###########################################################
+#### GET Q-DATAFRAME -----------------------------------------------------------
 Qdf <- function(setID = setID,
                 K = 2,
                 sort_by = 'ID',
@@ -83,11 +91,11 @@ Qdf <- function(setID = setID,
                 indID.column = 'ID',
                 convertToShortIDs = FALSE,
                 filedir.Qdf = filedir) {
-  cat("#### K:", K, '\n')
+  cat("## K:", K, '\n')
 
   Qfile <- list.files(filedir.Qdf, full.names = TRUE,
                       pattern = paste0(setID, ".", K, ".Q"))
-  cat("#### Qfile:", Qfile, '\n')
+  cat("## Qfile:", Qfile, '\n')
 
   indlist_file <- list.files(filedir.Qdf, full.names = TRUE,
                              pattern = paste0(setID, ".indivs.txt"))
@@ -95,7 +103,7 @@ Qdf <- function(setID = setID,
   if(convertToShortIDs == TRUE) indlist <- substr(indlist_file, 1, 7)
 
   if(!all(indlist %in% inds_df[, indID.column])) {
-    cat("#### NOT ALL INDS IN ADMIXTOOLS ARE FOUND IN LOOKUP - MISSING INDS:\n")
+    cat("## NOT ALL INDS IN ADMIXTOOLS ARE FOUND IN LOOKUP - MISSING INDS:\n")
     print(indlist[! indlist %in% inds_df[, indID.column]])
   }
 
@@ -115,7 +123,7 @@ Qdf <- function(setID = setID,
 }
 
 
-#### VERTICAL BARPLOT ##########################################################
+#### VERTICAL BARPLOT ----------------------------------------------------------
 ggax.v <- function(Q,
                    barcols = NULL,
                    indID.column = 'ID',
@@ -126,7 +134,7 @@ ggax.v <- function(Q,
                    indlab.cols = NULL,
                    indlab.column = NULL,
                    indlab.size = 12,
-                   grouplab.cols = 'black',
+                   grouplab.cols = 'grey10',
                    grouplab.size = 14,
                    grouplab.labeller = NULL,
                    grouplab.bgcol = 'white',
@@ -182,8 +190,8 @@ ggax.v <- function(Q,
   if(indlabs == TRUE) {
     if(!is.null(indlab.column)) {
       my.indlabs <- Q %>% filter(cluster == 'V1') %>% pull(!!(sym(indlab.column)))
-      cat('#### Number of indlabs:', length(my.indlabs), '\n')
-      cat('#### Changed indlabs:', my.indlabs, '\n')
+      cat('## Number of indlabs:', length(my.indlabs), '\n')
+      cat('## Changed indlabs:', my.indlabs, '\n')
       p <- p + scale_x_discrete(expand = c(0, 0), labels = my.indlabs)
     }
     if(!is.null(indlab.cols)) {
@@ -248,7 +256,7 @@ ggax.v <- function(Q,
 }
 
 
-##### HORIZONTAL BARPLOT #######################################################
+##### HORIZONTAL BARPLOT -------------------------------------------------------
 ggax <- function(Q,
                  barcols = NULL,
                  labcols = NULL,
@@ -318,7 +326,7 @@ ggax <- function(Q,
 }
 
 
-#### GET INTERMEDIATE COLOUR ###################################################
+#### GET INTERMEDIATE COLOUR ---------------------------------------------------
 get.midpoint <- function(col1, col2) {
   col <- rgb(red = (col2rgb(col1)[1] + col2rgb(col2)[1]) / 2,
              green = (col2rgb(col1)[2] + col2rgb(col2)[2]) / 2,

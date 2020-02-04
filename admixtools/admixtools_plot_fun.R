@@ -8,39 +8,44 @@
 # calcD(154728, 111720)
 # calcD(124562, 316312)
 
-################################################################################
-##### RETURN DFs #####
-################################################################################
-return.dfmode <- function(file.id,
-                          running.mode = 'dmode',
-                          include.outgroup = FALSE) {
+#### LIBRARIES -----------------------------------------------------------------
+suppressPackageStartupMessages(library(ggpubr))
+suppressPackageStartupMessages(library(cowplot))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(forcats))
 
-  outputfile <- paste0('analyses/admixtools/output/', file.id, '.', running.mode, '.out')
-  output <- read.delim(outputfile, sep = "", header = FALSE, as.is = TRUE)
+#### RETURN DFs ----------------------------------------------------------------
+prep_d <- function(atools_file, sort = TRUE,
+                   running_mode = 'dmode',
+                   include_outgroup = FALSE) {
+
+  output <- read.delim(atools_file, sep = "", header = FALSE, as.is = TRUE)
   output <- output[, -1] # Get rid of "result:" column
 
-  if(running.mode == 'dmode')
+  if(running_mode == 'dmode')
     colnames(output) <- c('popA', 'popB', 'popC', 'popD', 'D',
-                          'se', 'Z', 'BABA', 'ABBA', 'nrSNPS')
-  if(running.mode == 'fmode')
+                          'se', 'Z', 'BABA', 'ABBA', 'nSNP')
+  if(running_mode == 'fmode')
     colnames(output) <- c('popA', 'popB', 'popC', 'popD', 'f4',
-                          'se', 'Z', 'BABA', 'ABBA', 'nrSNPS')
+                          'se', 'Z', 'BABA', 'ABBA', 'nSNP')
 
-  if(include.outgroup == FALSE)
+  if(include_outgroup == FALSE)
     output <- output %>%
-      mutate(popcomb = paste0('(', popA, ',', popB, '),', popC))
+      mutate(popcomb = paste0('(', popA, ',', popB, '),', popC),
+             popcomb2 = paste0(popA, popB, popC))
 
-  if(include.outgroup == TRUE)
+  if(include_outgroup == TRUE)
     output <- output %>%
-      mutate(popcomb = paste0('(', popA, ',', popB, '),', popC, ',', popD))
+      mutate(popcomb = paste0('(', popA, ',', popB, '),', popC, ' | ', popD),
+             popcomb2 = paste0(popA, popB, popC, popD))
 
-  output <- output %>% arrange(popcomb)
+  if(sort == TRUE) output <- output %>% arrange(popcomb)
 
   return(output)
 }
 
-return.f4ratio <- function(file.id) {
-  outputfile <- paste0('analyses/admixtools/output/', file.id, '.f4ratio.out')
+prep_f4r <- function(fileID) {
+  outputfile <- paste0('analyses/admixtools/output/', fileID, '.f4ratio.out')
 
   output <- read.delim(outputfile, sep = "", header = FALSE)
   output <- output[, -c(1, 6:8, 10)]
@@ -59,8 +64,8 @@ return.f4ratio <- function(file.id) {
   return(output)
 }
 
-return.f3 <- function(file.id) {
-  outputfile <- paste0('analyses/admixtools/output/', file.id, '.f3.out')
+prep_f3 <- function(fileID) {
+  outputfile <- paste0('analyses/admixtools/output/', fileID, '.f3.out')
   output <- read.delim(outputfile, sep = "", header = FALSE)
   output <- output[, -1]
   colnames(output) <- c('popA', 'popB', 'popX', 'f3', 'se', 'Z', 'nrSNPs')
@@ -69,65 +74,90 @@ return.f3 <- function(file.id) {
 }
 
 
-################################################################################
-##### PLOT #####
-################################################################################
-plot.dstats <- function(d.df,
-                        marg.sig = FALSE,
-                        d.breaks = seq(from = -1, to = 1, by = 0.05),
-                        ylab = "D\nnegative D = p1p3 admixture\npositive D = p2p3 admixture",
-                        fig.save = FALSE,
-                        figfile = NULL) {
+#### PLOT ----------------------------------------------------------------------
+plot_d <- function(d,
+                   autosort = TRUE,
+                   marg_sig = FALSE,
+                   breaks_by = 0.05,
+                   draw_rect = FALSE,
+                   rect_coord = NULL,
+                   hline = NULL, hline2 = NULL,
+                   ylab = "D\nD<0: p1p3 admixture\nD>0: p2p3 admixture",
+                   pointsize = 1,
+                   axis.title.x.size = 16,
+                   axis.text.x.size = 16,
+                   axis.text.y.size = 14,
+                   figsave = FALSE,
+                   figdims = c(5, 5), # figdims: c(width, height)
+                   figfile = NULL) {
 
-  if(marg.sig == TRUE) {
-    d.df$sig <- cut(abs(d.df$Z), breaks = c(0, 2, 3, Inf),
-                    labels = c('black', 'orange', 'red'))
-    d.df$siglab <- gsub('black', '|Z|<2', d.df$sig)
-    d.df$siglab <- gsub('orange', '3>|Z|>2', d.df$siglab)
-    d.df$siglab <- gsub('red', '|Z|>3', d.df$siglab)
+  if(autosort == TRUE) {
+  d <- d %>%
+    arrange(desc(popcomb)) %>%
+    mutate(popcomb = fct_inorder(factor(popcomb)))
+  }
+
+  if(marg_sig == TRUE) {
+    d$sig <- cut(abs(d$Z), breaks = c(0, 2, 3, Inf), labels = c('black', 'orange', 'red'))
+    d$siglab <- gsub('black', '|Z|<2', d$sig)
+    d$siglab <- gsub('orange', '3>|Z|>2', d$siglab)
+    d$siglab <- gsub('red', '|Z|>3', d$siglab)
     } else {
-    d.df$sig <- cut(abs(d.df$Z), breaks = c(0, 3, Inf),
-                    labels = c('black', 'red'))
-    d.df$siglab <- gsub('black', '|Z|<3', d.df$sig)
-    d.df$siglab <- gsub('red', '|Z|>3', d.df$siglab)
+    d$sig <- cut(abs(d$Z), breaks = c(0, 3, Inf), labels = c('black', 'red'))
+    d$siglab <- gsub('black', '|Z|<3', d$sig)
+    d$siglab <- gsub('red', '|Z|>3', d$siglab)
     }
 
   col.labs.all <- c('|Z|<2', '3>|Z|>2', '|Z|>3', '|Z|<3')
-  col.labs <- col.labs.all[col.labs.all %in% d.df$siglab]
+  col.labs <- col.labs.all[col.labs.all %in% d$siglab]
+  d$siglab <- factor(d$siglab, levels = col.labs)
 
-  p <- ggplot(d.df, aes(x = popcomb, y = -D)) +
-    geom_pointrange(aes(ymax = -d.df$D + d.df$se,
-                        ymin = -d.df$D - d.df$se,
-                        colour = sig)) +
-    geom_hline(yintercept = 0, colour = 'grey40') +
+  cols.all <- c('grey01', 'orange', 'red', 'black')
+  mycols <- cols.all[cols.all %in% d$sig]
+  d$sig <- factor(d$sig, levels = mycols)
+
+  d_breaks = seq(from = -1, to = 1, by = breaks_by)
+
+  p <- ggplot(d, aes(x = popcomb, y = -D))
+  if(draw_rect == TRUE) {
+    p <- p + geom_rect(xmin = rect_coord[1], xmax = rect_coord[2],
+                       ymin = rect_coord[3], ymax = rect_coord[4],
+                       fill = 'grey70')
+  }
+  p <- p + geom_hline(yintercept = 0, colour = 'grey40', size = 1.5, linetype = 'dotdash') +
+    geom_pointrange(aes(ymax = -d$D + d$se, ymin = -d$D - d$se, colour = sig),
+                    size = pointsize) +
     labs(y = ylab) +
-    scale_y_continuous(breaks = d.breaks) +
+    scale_y_continuous(breaks = d_breaks) +
     scale_colour_identity(guide = 'legend', labels = col.labs, name = '') +
     coord_flip() +
     theme_bw() +
     theme(panel.border = element_rect(colour = 'grey20', size = 1),
-          axis.text.x = element_text(size = 14),
-          axis.text.y = element_text(size = 14),
-          axis.title.x = element_text(size = 14),
-          axis.title.y = element_blank(),
-          panel.grid.major.y = element_blank(),
-          panel.grid.minor.y = element_blank(),
-          plot.title = element_text(size = 18, hjust = 2),
-          legend.position = 'top',
-          legend.text = element_text(size = 16),
-          plot.margin = margin(0.3, 0.3, 0.3, 0.3, "cm"))
+        axis.text.x = element_text(size = axis.text.x.size),
+        axis.text.y = element_text(size = axis.text.y.size),
+        axis.title.x = element_text(size = axis.title.x.size, colour = 'grey30'),
+        axis.title.y = element_blank(),
+        #panel.grid.major.x = element_line(size = 0.5, colour = 'grey70'),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_line(size = 0.2, colour = 'grey70'),
+        panel.grid.minor.y = element_blank(),
+        plot.title = element_text(size = 18, hjust = 2),
+        legend.position = 'top',
+        legend.text = element_text(size = 16),
+        plot.margin = margin(0.2, 0.2, 0.2, 0.2, "cm"))
 
-  if(fig.save == TRUE) {
-    ggsave(figfile, p, width = 6, height = 10)
+  if(!is.null(hline)) p <- p + geom_vline(aes(xintercept = hline), size = 1)
+  if(!is.null(hline2)) p <- p + geom_vline(aes(xintercept = hline2), size = 1)
+
+  if(figsave == TRUE) {
+    ggsave(figfile, p, width = figdims[1], height = figdims[2])
     system(paste('xdg-open', figfile))
   }
-
-  print(p)
   return(p)
 }
 
-plot.f4r <- function(f.df, ylims = c(0, 1.05), alpha.breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
-                     figfile = NULL, fig.save = FALSE) {
+plot_f4r <- function(f.df, ylims = c(0, 1.05), alpha.breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
+                     figfile = NULL, figsave = FALSE) {
 
   p <- ggplot(f.df, aes(x = popcomb, y = alpha)) +
     geom_pointrange(aes(ymax = f.df$alpha + f.df$se, ymin = f.df$alpha - f.df$se, colour = sig)) +
@@ -150,11 +180,10 @@ plot.f4r <- function(f.df, ylims = c(0, 1.05), alpha.breaks = c(0, 0.2, 0.4, 0.6
           legend.text = element_text(size = 16),
           plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm"))
 
-  if(fig.save == TRUE) {
+  if(figsave == TRUE) {
     ggsave(figfile, p, width = 9, height = 7)
     system(paste('xdg-open', figfile))
   }
-
   print(p)
   return(p)
 }

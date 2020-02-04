@@ -26,7 +26,7 @@ set_y_coords = function(d){
 
 	for (j in 1:nrow(d)){
 		d = set_y_coord(d, j)
-	}	
+	}
 	return(d)
 }
 
@@ -60,8 +60,8 @@ set_y_coord = function(d, i){
 		d[i,]$y = py-f*(py-pymin)
                 if (d[i,5]== "TIP"){
                         d[i,]$y = (pymin+py)/2
-                }	
-	
+                }
+
 	}
 	return(d)
 }
@@ -102,7 +102,7 @@ set_x_coords = function(d, e){
                 tmpx = 0
         }
         d[ni,]$x = tmpx
-        
+
         for (j in 1:nrow(d)){
                 d = set_x_coord(d, e, j)
         }
@@ -140,10 +140,12 @@ set_x_coord = function(d, e, i){
 	return(d)
 }
 
-plot_tree_internal = function(d, e, o = NA, cex = 1, disp = 0.005, plus = 0.005, arrow = 0.05, ybar = 0.01, scale = T, mbar = T, mse = 0.01, plotmig = T, plotnames = T, xmin = 0, xmax = NULL, lwd = 1, font = 1){
-  
+plot_tree_internal = function(d, e, o = NA, cex = 1, disp = 0.005, plus = 0.005,
+                              arrow = 0.05, ybar = 0.01, scale = T, mbar = T, mse = 0.01,
+                              plotmig = T, plotnames = T, xmin = 0, xmax = NULL, lwd = 1, font = 1){
+
   if(is.null(xmax)) xmax <- max(d$x)+plus
-  
+
   plot(d$x, d$y, axes = F, ylab = "", xlab = "Drift parameter", xlim = c(xmin, xmax), pch = "")
 	axis(1)
 	mw = max(e[e[,5]=="MIG",4])
@@ -164,7 +166,7 @@ plot_tree_internal = function(d, e, o = NA, cex = 1, disp = 0.005, plus = 0.005,
 		v2 = d[d[,1] == e[i,2],]
 		if (e[i,5] == "MIG"){
 			if (plotmig){
-			arrows( v1[1,]$x, v1[1,]$y, v2[1,]$x, v2[1,]$y, col = col, length = arrow)
+			arrows( v1[1,]$x, v1[1,]$y, v2[1,]$x, v2[1,]$y, col = col, length = arrow, lwd = lwd)
 			}
 		}
 		else{
@@ -211,7 +213,7 @@ plot_tree_internal = function(d, e, o = NA, cex = 1, disp = 0.005, plus = 0.005,
 		}
 		text(0, yma+0.06, lab = "Migration", adj = 0 , cex = 0.6)
 		text(0, yma+0.03, lab = "weight", adj = 0 , cex = 0.6)
-        }	
+        }
 }
 
 set_mig_coords = function(d, e){
@@ -225,7 +227,7 @@ set_mig_coords = function(d, e){
 			x1 = p[1,]$x
 			x2 = c[1,]$x
 
-			mf = tmpe[1,6]	
+			mf = tmpe[1,6]
 			if (is.nan(mf)){
 				mf = 0
 			}
@@ -234,7 +236,7 @@ set_mig_coords = function(d, e){
                         d[j,]$y = y1+(y2-y1)* mf
 			print(paste(mf, x1, x2))
                         d[j,]$x = x1+(x2-x1) *mf
-		}	
+		}
 
 	}
 	return(d)
@@ -261,7 +263,9 @@ get_f = function(stem){
 
 }
 
-plot_tree = function(stem, o = NA, cex = 1, disp = 0.003, plus = 0.01, flip = vector(), arrow = 0.05, scale = T, ybar = 0.1, mbar = T, plotmig = T, plotnames = T, xmin = 0, xmax = NULL, lwd = 1, font = 1){
+plot_tree = function(stem, o = NA, cex = 1, disp = 0.003, plus = 0.01,
+                     flip = vector(), arrow = 0.05, scale = T, ybar = 0.1,
+                     mbar = T, plotmig = T, plotnames = T, xmin = 0, xmax = NULL, lwd = 1, font = 1){
 	d = paste(stem, ".vertices.gz", sep = "")
 	e = paste(stem, ".edges.gz", sep = "")
 	se = paste(stem, ".covse.gz", sep = "")
@@ -272,7 +276,7 @@ plot_tree = function(stem, o = NA, cex = 1, disp = 0.003, plus = 0.01, flip = ve
 	}
 	e[,3] = e[,3]*e[,4]
 	e[,3] = e[,3]*e[,4]
-	
+
 	se = read.table(gzfile(se), as.is = T, comment.char = "", quote = "")
 	m1 = apply(se, 1, mean)
 	m = mean(m1)
@@ -293,7 +297,9 @@ plot_tree = function(stem, o = NA, cex = 1, disp = 0.003, plus = 0.01, flip = ve
 	d = set_x_coords(d, e)
 	print(d)
 	d = set_mig_coords(d, e)
-	plot_tree_internal(d, e, o = o, cex = cex, xmin = xmin, xmax = xmax, disp = disp, plus = plus, arrow = arrow, ybar = ybar, mbar = mbar, mse = m, scale = scale, plotmig = plotmig, plotnames = plotnames, lwd = lwd, font = font)
+	plot_tree_internal(d, e, o = o, cex = cex, xmin = xmin, xmax = xmax, disp = disp,
+	                   plus = plus, arrow = arrow, ybar = ybar, mbar = mbar, mse = m,
+	                   scale = scale, plotmig = plotmig, plotnames = plotnames, lwd = lwd, font = font)
 	return(list( d= d, e = e))
 }
 
@@ -374,10 +380,10 @@ plot_resid = function(stem, pop_order, min = -0.009, max = 0.009, cex = 1, usema
 	se = read.table(gzfile(paste(stem, ".covse.gz", sep = "")), as.is = T, head = T, quote = "", comment.char = "")
 	mse = apply(se, 1, mean)
 	mse = mean(mse)
-	print(mse)	
+	print(mse)
 	c = c[order(names(c)), order(names(c))]
 	m = m[order(names(m)), order(names(m))]
-	tmp = c -m 
+	tmp = c -m
 	#tmp = m - c
 	#tmp = (m-c)/m
 	#print(tmp)
@@ -398,7 +404,7 @@ plot_resid = function(stem, pop_order, min = -0.009, max = 0.009, cex = 1, usema
 	if (usemax){
 		m1 = max(abs(toplot), na.rm = T)
 		max = m1*1.02
-		min = -(m1*1.02)	
+		min = -(m1*1.02)
 	}
 	print("here")
 	names(toplot) = o[,1]
