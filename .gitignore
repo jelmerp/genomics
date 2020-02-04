@@ -1,2 +1,4 @@
 old
 raxml/
+geno/gatk/geno_sub_example.sh
+.gitignore
