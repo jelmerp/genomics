@@ -16,11 +16,12 @@ VCF_DIR=$2
 PLINK_DIR=$3
 MAF=$4 # Minor allele frequency
 LD_MAX=$5 # Give 1 if no LD pruning needed
-INDFILE=$6 # Optional: File with inds to select from vcf
-#ID_OUT=$7 # Optional: ID for output file
+SELECT_INDS=$6
+INDFILE=$7 # Optional: File with inds to select from vcf
+ID_OUT=$8 # Optional: ID for output file
 
 ## Process args:
-#[[ -z $ID_OUT ]] && ID_OUT=$FILE_ID
+[[ $ID_OUT == "NA" ]] && ID_OUT=$FILE_ID
 ID_OUT=$FILE_ID
 OUTFILE=$PLINK_DIR/$ID_OUT
 VCF=$VCF_DIR/$FILE_ID.vcf.gz
@@ -35,7 +36,7 @@ echo "##### vcf2plink.sh: Minor allele frequency (MAF) cut-off: $MAF"
 echo "##### vcf2plink.sh: LD_MAX: $LD_MAX"
 echo "##### vcf2plink.sh: Plink dir: $PLINK_DIR"
 echo "##### vcf2plink.sh: VCF file: $VCF"
-#echo "##### vcf2plink.sh: Output ID: $ID_OUT"
+echo "##### vcf2plink.sh: Output ID: $ID_OUT"
 echo "##### vcf2plink.sh: Output file: $OUTFILE"
 printf "\n"
 
@@ -48,7 +49,7 @@ printf "\n"
 ## If $KEEP_COMMAND is not assigned here, it can still be passed on to vcftools (see below),
 ## but since the variable is blank, nothing will be processed.  
 echo "#######################################################################"
-if [ -e $INDFILE ]
+if [ $SELECT_INDS == TRUE -a $INDFILE != "NA" ]
 then
 	
 	echo "#### vcf2plink.sh: Selecting individuals from file: $INDFILE"
@@ -107,7 +108,7 @@ fi
 ################################################################################
 #### REPORT ####
 ################################################################################
-echo "\n\n######################################################################"
+echo -e "\n\n###################################################################"
 echo -e "#### vcf2plink.sh: Output files:"
 ls -lh $OUTFILE*
 printf "\n"

@@ -7,7 +7,7 @@ set -u
 ##### SET-UP #####
 ################################################################################
 ## Software and scripts:
-VCFTAB2FASTA=/datacommons/yoderlab/users/jelmer/scripts/conversion/vcf_tab_to_fasta_alignment.pl
+VCFTAB2FASTA=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/vcf_tab_to_fasta_alignment.pl
 VCFTOOLS=/dscrhome/rcw27/programs/vcftools/vcftools-master/bin/vcftools
 VCF2TAB=/dscrhome/rcw27/programs/vcftools/vcftools-master/bin/vcf-to-tab
 export PERL5LIB=/dscrhome/rcw27/programs/vcftools/vcftools-master/src/perl/

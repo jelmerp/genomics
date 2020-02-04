@@ -7,8 +7,8 @@ set -u
 #### SET-UP ####
 ################################################################################
 ## Software and scripts:
-SCRIPT_POPFILE=/datacommons/yoderlab/users/jelmer/scripts/treemix/treemix_makePopfile.R
-SCRIPT_VCF2TREEMIX=/datacommons/yoderlab/users/jelmer/scripts/conversion/vcf2treemix.py
+SCRIPT_POPFILE=/datacommons/yoderlab/users/jelmer/scripts/genomics/treemix/treemix_makePopfile.R
+SCRIPT_VCF2TREEMIX=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/vcf2treemix.py
 PYTHON3=/datacommons/yoderlab/programs/Python-3.6.3/python
 BCFTOOLS=/datacommons/yoderlab/programs/bcftools-1.6/bcftools
 module load R/3.4.4
