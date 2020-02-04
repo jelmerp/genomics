@@ -131,7 +131,7 @@ mytheme <- function () {
           axis.text = element_text(size = 16),
           legend.title = element_text(face = 'bold', size = 13),
           legend.text = element_text(size = 13),
-          aspect.ratio = 1,
+          #aspect.ratio = 1,
           plot.title = element_text(size = 14, hjust = 0.5,
                                     margin = margin(0, 0, 1, 0)))
 }
@@ -159,12 +159,13 @@ mantel2df <- function(mantel, lookup) {
 
 ## Create IBD plot:
 ibd_plot <- function(dist_df,
+                     my_cols,
                      pointsize = 4,
                      addline = 'by_comp',
-                     plotplotly = TRUE,
+                     plotplotly = FALSE,
                      plot_title = NULL,
                      show_plot = TRUE,
-                     save_plot = TRUE,
+                     saveplot = FALSE,
                      outfile_plot = NULL) {
   #lm(Dgen ~ Dgeo)
 
@@ -188,7 +189,7 @@ ibd_plot <- function(dist_df,
 
   if(!is.null(plot_title)) p <- p + ggtitle(plot_title)
 
-  if(save_plot == TRUE) {
+  if(saveplot == TRUE) {
     ggsave(outfile_plot, width = 6, height = 4)
     system(paste('xdg-open', outfile_plot))
   }
@@ -205,16 +206,20 @@ ibd_plot <- function(dist_df,
 }
 
 ## Wrapper:
-ibd_plot_wrap <- function(setID, subsetID,
-                          input_dir, output_dir, ...) {
-  # subsetID = 'macsp3'
-
+ibd_plot_wrap <- function(setID, subsetID, input_dir,
+                          my_cols = NULL, output_dir = NULL, ...) {
   ## Files:
-  if(!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
-  plotbase <- paste0(output_dir, setID, '_', subsetID)
-  outfile_plot <- paste0(plotbase, '.png')
   mantel_RDS <- paste0(input_dir, setID, '_', subsetID, '_mantel.RDS')
+  cat('## mantel_RDS:', mantel_RDS, '\n')
   stopifnot(file.exists(mantel_RDS))
+
+  if(!is.null(output_dir)) {
+    if(!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
+    plotbase <- paste0(output_dir, setID, '_', subsetID)
+    outfile_plot <- paste0(plotbase, '.png')
+  } else {
+    outfile_plot <- NULL
+  }
 
   ## Get mantel RDS:
   mantel <- readRDS(mantel_RDS)
@@ -229,7 +234,7 @@ ibd_plot_wrap <- function(setID, subsetID,
 
   dist_df <- mantel2df(mantel, lookup)
 
-  ibd_plot(dist_df, outfile_plot = outfile_plot, ...)
+  ibd_plot(dist_df, my_cols, outfile_plot = outfile_plot, ...)
 }
 
 
