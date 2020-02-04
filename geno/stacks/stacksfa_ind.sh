@@ -7,9 +7,9 @@ set -u
 #### SET-UP ####
 ################################################################################
 ## Software and scripts:
-chmod -R +x /datacommons/yoderlab/users/jelmer/scripts/
+chmod -R +x /datacommons/yoderlab/users/jelmer/scripts/genomics/
 
-SCR_GENOMEFASTA=/datacommons/yoderlab/users/jelmer/scripts/geno/stacks/stacksfa_fullgenome.R
+SCR_GENOMEFASTA=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/stacks/stacksfa_fullgenome.R
 module load R
 
 VCF2BED=/datacommons/yoderlab/programs/bedops/bin/vcf2bed

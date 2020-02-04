@@ -5,7 +5,7 @@ set -u
 
 ## Software:
 module load R
-SCRIPT_FILTERLOCI=/datacommons/yoderlab/users/jelmer/scripts/radseq/vcf2loci/vcf2loci2d_filterloci.R
+SCRIPT_FILTERLOCI=/datacommons/yoderlab/users/jelmer/scripts/genomics/radseq/vcf2loci/vcf2loci2d_filterloci.R
 
 ## Command-line args:
 FILE_LOCUSSTATS_INTERMED=$1

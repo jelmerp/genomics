@@ -9,7 +9,7 @@
 #### SET-UP #####
 ################################################################################
 ## Software & scripts:
-SCR_QCVCF=/datacommons/yoderlab/users/jelmer/scripts/qc/qc_vcf.sh
+SCR_QCVCF=/datacommons/yoderlab/users/jelmer/scripts/genomics/qc/qc_vcf.sh
 
 JAVA=/datacommons/yoderlab/programs/java_1.8.0/jre1.8.0_144/bin/java
 GATK3=/datacommons/yoderlab/programs/gatk-3.8-0/GenomeAnalysisTK.jar
@@ -116,6 +116,7 @@ MAXMISS_IND_4=0.25
 ## Report:
 echo -e "\n#####################################################################"
 echo "#### filterVCF_FS6.sh: Script: filterVCF_FS6.sh"
+echo "#### Call: $@"
 date
 printf "\n"
 echo "#### filterVCF_FS6.sh: Input name: $INPUT_NAME"
@@ -575,19 +576,20 @@ echo -e "#### filterVCF_FS6.sh: Step 7: Organize files..."
 if [ $SKIP_7 == FALSE ]
 then
 	## FS6 file (final file):
-	gzip -f $VCF_STEP6
+	$BGZIP -f $VCF_STEP6
+	$TABIX $VCF_STEP6.gz
 	
 	## FS7 file (minus last missing data filtering step):
 	mv $VCF_STEP5 $VCF_FS7
-	gzip -c $VCF_FS7 > $VCF_FS7.gz
-	rm $VCF_FS7
+	$BGZIP -f $VCF_FS7
+	$TABIX $VCF_FS7.gz
 	
 	## FS8 file (no missing data):
 	mv $ID.noMiss.vcf.gz $VCF_FS8.gz
 else
 	## Final VCF file:
 	mv $VCF_STEP6 $VCF_OUT_ALT
-	#gzip $VCF_OUT_ALT
+	mv $VCF_STEP6.gz.tbi $VCF_OUT_ALT.gz.tbi
 fi
 
 ## Remove intermediate files:

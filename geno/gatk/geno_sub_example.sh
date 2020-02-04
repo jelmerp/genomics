@@ -1,7 +1,7 @@
 ################################################################################
 #### FASTQ -> GVCF ####
 ################################################################################
-SCR_IGENO=/datacommons/yoderlab/users/jelmer/scripts/geno/gatk/igeno_pip.sh
+SCR_IGENO=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/gatk/igeno_pip.sh
 REF_DIR=/datacommons/yoderlab/users/jelmer/seqdata/reference/mmur/
 REF_ID=GCF_000165445.2_Mmur_3.0_genomic_stitched
 REF=$REF_DIR/$REF_ID.fasta
@@ -54,7 +54,7 @@ done
 ################################################################################
 #### JOINT GENOTYPING ####
 ################################################################################
-SCR_JGENO=/datacommons/yoderlab/users/jelmer/scripts/geno/gatk/jgeno_pip.sh
+SCR_JGENO=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/gatk/jgeno_pip.sh
 REF_DIR=/datacommons/yoderlab/users/jelmer/seqdata/reference/mmur/
 REF_ID=GCF_000165445.2_Mmur_3.0_genomic_stitched
 REF=$REF_DIR/$REF_ID.fasta

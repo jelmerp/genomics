@@ -15,7 +15,7 @@ BCFTOOLS=/datacommons/yoderlab/programs/bcftools-1.6/bcftools
 VCFTOOLS=/dscrhome/rcw27/programs/vcftools/vcftools-master/bin/vcftools
 MAWK=/datacommons/yoderlab/programs/mawk-1.3.4-20171017/mawk
 
-SCR_QCVCF=/datacommons/yoderlab/users/jelmer/scripts/qc/qc_vcf.sh
+SCR_QCVCF=/datacommons/yoderlab/users/jelmer/scripts/genomics/qc/qc_vcf.sh
 
 ## Command-line arguments:
 INPUT_NAME=$1

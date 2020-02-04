@@ -12,7 +12,7 @@ BEDTOOLS=/datacommons/yoderlab/programs/bedtools2.27.1/bin/bedtools
 SAMTOOLS=/datacommons/yoderlab/programs/samtools-1.6/samtools
 FASTASORT=/datacommons/yoderlab/programs/exonerate-2.2/bin/fastasort
 
-SCR_FILTER_LOCI=/datacommons/yoderlab/users/jelmer/scripts/geno/stacks/stacksfa_filter.R
+SCR_FILTER_LOCI=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/stacks/stacksfa_filter.R
 
 ## Command-line args:
 SET_ID_FASTA=$1

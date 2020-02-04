@@ -7,10 +7,10 @@ set -u
 #### SET-UP #####
 ################################################################################
 ## Software:
-BCFTOOLS=/datacommons/yoderlab/programs/bcftools-1.6/bcftools
-VCF2PLINK_SCRIPT=/datacommons/yoderlab/users/jelmer/scripts/conversion/vcf2plink.sh
-SPLITVCF_SCRIPT=/datacommons/yoderlab/users/jelmer/scripts/conversion/splitVCF_byIndv.sh
-MAKE_INDFILE_SCRIPT=/datacommons/yoderlab/users/jelmer/scripts/admixtools/admixtools_makeIndfile.R
+BCFTOOLS=/datacommons/yoderlab/programs/bcftools-1.10.2/bcftools
+VCF2PLINK_SCRIPT=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/vcf2plink.sh
+SPLITVCF_SCRIPT=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/splitVCF_byIndv.sh
+MAKE_INDFILE_SCRIPT=/datacommons/yoderlab/users/jelmer/scripts/genomics/admixtools/admixtools_makeIndfile.R
 module load R/3.4.4
 
 ## Command-line args:
@@ -106,7 +106,10 @@ then
 	echo "#### admixtools_prepinput.sh: Converting vcf to plink..."
 	MAF=0
 	LD_MAX=1
-	$VCF2PLINK_SCRIPT $FILE_ID $VCF_DIR $PLINK_DIR $MAF $LD_MAX
+	SELECT_INDS=FALSE
+	INDFILE_PLINK="NA"
+	ID_OUT="NA"
+	$VCF2PLINK_SCRIPT $FILE_ID $VCF_DIR $PLINK_DIR $MAF $LD_MAX $SELECT_INDS $INDFILE_PLINK $ID_OUT
 	printf "\n\n"
 else
 	echo -e "\n#### admixtools_prepinput.sh: Not converting vcf to plink.\n"
@@ -122,14 +125,12 @@ then
 	echo "#### admixtools_prepinput.sh: Inds metadata: $INDS_METADATA"
 	echo "#### admixtools_prepinput.sh: Indfile: $INDFILE"
 	
-	INDLIST=indlist.tmp
+	INDLIST=indlist.$FILE_ID.tmp
 	$BCFTOOLS query -l $VCF > $INDLIST
 	
 	Rscript $MAKE_INDFILE_SCRIPT $INDLIST $INDS_METADATA $INDFILE $ID_COLUMN $GROUPBY
 	
 	rm $INDLIST
-	
-	#echo -e "\n#### admixtools_prepinput.sh: Indfile:"; cat $INDFILE
 else
 	echo -e "\n#### admixtools_prepinput.sh: NOT CREATING EIGENSTAT INDFILE.\n"
 fi
@@ -142,10 +143,10 @@ fi
 
 if [ $SUBSET_INDFILE == TRUE ]
 then
-	echo "#### admixtools_prepinput.sh: Subsetting Eigenstat indfile..."
+	echo -e "\n\n#### admixtools_prepinput.sh: Subsetting Eigenstat indfile..."
 	NLINE_IN=$(cat $INDFILE | wc -l)
 	
-	INDS=( $(bcftools query -l $VCF) )
+	INDS=( $($BCFTOOLS query -l $VCF) )
 	> $INDFILE.tmp
 	for IND in ${INDS[@]}; do grep $IND $INDFILE >> $INDFILE.tmp; done
 	sort -u $INDFILE.tmp > $INDFILE

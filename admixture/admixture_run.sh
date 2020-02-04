@@ -85,11 +85,11 @@ printf "\n"
 
 ## Move files:
 echo -e "\n#### admixture_run.sh: Moving files to output dir..."
-ls -lh $FILE_ID*Q
-ls -lh $FILE_ID*P
+ls -lh $FILE_ID.$K.Q
+ls -lh $FILE_ID.$K.P
 
-mv $FILE_ID*Q $OUTDIR/
-mv $FILE_ID*P $OUTDIR/pfiles/
+mv $FILE_ID.$K.Q $OUTDIR/
+mv $FILE_ID.$K.P $OUTDIR/pfiles/
 
 echo -e "\n#### admixture_run.sh: Done with script."
 date

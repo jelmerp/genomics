@@ -8,10 +8,10 @@ set -u
 ################################################################################
 
 ## Scripts:
-SCRIPT_LOCUSBED=/datacommons/yoderlab/users/jelmer/scripts/radseq/vcf2loci/vcf2loci2a_makelocusbed.R
-SCRIPT_LOCUSFASTA=/datacommons/yoderlab/users/jelmer/scripts/radseq/vcf2loci/vcf2loci2b_locusfasta.sh
-SCRIPT_LOCUSSTATS=/datacommons/yoderlab/users/jelmer/scripts/radseq/vcf2loci/vcf2loci2c_locusstats.sh
-SCRIPT_FILTERLOCI_SUB=/datacommons/yoderlab/users/jelmer/scripts/radseq/vcf2loci/vcf2loci2d_filterloci_sub.sh
+SCRIPT_LOCUSBED=/datacommons/yoderlab/users/jelmer/scripts/genomics/radseq/vcf2loci/vcf2loci2a_makelocusbed.R
+SCRIPT_LOCUSFASTA=/datacommons/yoderlab/users/jelmer/scripts/genomics/radseq/vcf2loci/vcf2loci2b_locusfasta.sh
+SCRIPT_LOCUSSTATS=/datacommons/yoderlab/users/jelmer/scripts/genomics/radseq/vcf2loci/vcf2loci2c_locusstats.sh
+SCRIPT_FILTERLOCI_SUB=/datacommons/yoderlab/users/jelmer/scripts/genomics/radseq/vcf2loci/vcf2loci2d_filterloci_sub.sh
 module load R/3.4.4
 
 ## Command-line args:
