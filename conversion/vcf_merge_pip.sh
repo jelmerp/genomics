@@ -49,7 +49,7 @@ do
 	OUTFILE=$OUTDIR/$FILE_ID.$SCAFFOLD.vcf.gz
 	
 	sbatch -p yoderlab,common,scavenger --mem=16G --job-name=mergeVcf.$FILE_ID -o slurm.mergeVcf.$SCAFFOLD \
-	/datacommons/yoderlab/users/jelmer/scripts/conversion/mergeVcf_pip.sh $OUTFILE $SCAFFOLD $MAXMISS ${INFILES[@]}
+	/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/mergeVcf_pip.sh $OUTFILE $SCAFFOLD $MAXMISS ${INFILES[@]}
 done
 
 
@@ -59,7 +59,7 @@ done
 INFILES_CONCAT=( $(ls $OUTDIR/$FILE_ID*vcf.gz) )
 
 sbatch -p yoderlab,common,scavenger --mem=16G --job-name=mergeVcf.$FILE_ID --dependency=singleton -o slurm.mergeVcf.$SCAFFOLD \
-/datacommons/yoderlab/users/jelmer/scripts/conversion/concatVcf.sh $OUTFILE_CONCAT ${INFILES_CONCAT[@]}
+/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/concatVcf.sh $OUTFILE_CONCAT ${INFILES_CONCAT[@]}
 
 #bcftools concat seqdata/vcf/merged.NC*vcf.gz -O z > seqdata/vcf/merged.5scaf.vcf.gz
 

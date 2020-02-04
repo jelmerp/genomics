@@ -7,10 +7,10 @@ set -u
 #### SET-UP ####
 ################################################################################
 ## Scripts:
-SCRIPT_FILTERVCF=/datacommons/yoderlab/users/jelmer/scripts/radseq/filtering/filterVCF_FS6_pip.sh
-SCRIPT_MASKBED=/datacommons/yoderlab/users/jelmer/scripts/radseq/vcf2loci/vcf2loci0_maskbed.sh
-SCRIPT_VCF2FULLFA1=/datacommons/yoderlab/users/jelmer/scripts/radseq/vcf2loci/vcf2loci1.sh
-SCRIPT_VCF2FULLFA2=/datacommons/yoderlab/users/jelmer/scripts/radseq/vcf2loci/vcf2loci2.sh
+SCRIPT_FILTERVCF=/datacommons/yoderlab/users/jelmer/scripts/genomics/radseq/filtering/filterVCF_FS6_pip.sh
+SCRIPT_MASKBED=/datacommons/yoderlab/users/jelmer/scripts/genomics/radseq/vcf2loci/vcf2loci0_maskbed.sh
+SCRIPT_VCF2FULLFA1=/datacommons/yoderlab/users/jelmer/scripts/genomics/radseq/vcf2loci/vcf2loci1.sh
+SCRIPT_VCF2FULLFA2=/datacommons/yoderlab/users/jelmer/scripts/genomics/radseq/vcf2loci/vcf2loci2.sh
 BCFTOOLS=/datacommons/yoderlab/programs/bcftools-1.6/bcftools
 VCFTOOLS=/dscrhome/rcw27/programs/vcftools/vcftools-master/bin/vcftools
 

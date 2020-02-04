@@ -7,8 +7,8 @@ set -u
 #### SET-UP ####
 ################################################################################
 ## Software & scripts:
-SCR_STACKSFA_IND=/datacommons/yoderlab/users/jelmer/scripts/geno/stacks/stacksfa_ind.sh
-SCR_STACKSFA_JOINT=/datacommons/yoderlab/users/jelmer/scripts/geno/stacks/stacksfa_joint.sh
+SCR_STACKSFA_IND=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/stacks/stacksfa_ind.sh
+SCR_STACKSFA_JOINT=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/stacks/stacksfa_joint.sh
 module load R
 
 ## Args:

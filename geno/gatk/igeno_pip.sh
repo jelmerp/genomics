@@ -11,21 +11,21 @@ echo "#### igeno_pip: Starting with script."
 echo "#### igeno_pip: Node name: $SLURMD_NODENAME"
 
 ## Scripts:
-SCR_INDEXGENOME=/datacommons/yoderlab/users/jelmer/scripts/conversion/indexGenome.sh
-SCR_REGIONSEL=/datacommons/yoderlab/users/jelmer/scripts/conversion/bam_selectRegions.sh
+SCR_INDEXGENOME=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/indexGenome.sh
+SCR_REGIONSEL=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/bam_selectRegions.sh
 
-SCR_ALIGN=/datacommons/yoderlab/users/jelmer/scripts/geno/bam/bam1_align.sh
-SCR_SORT=/datacommons/yoderlab/users/jelmer/scripts/geno/bam/bam2_sort.sh
-SCR_REALIGN=/datacommons/yoderlab/users/jelmer/scripts/geno/bam/bam3_realign.sh
-SCR_DEDUP=/datacommons/yoderlab/users/jelmer/scripts/geno/bam/bam4_dedup.sh
+SCR_ALIGN=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/bam/bam1_align.sh
+SCR_SORT=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/bam/bam2_sort.sh
+SCR_REALIGN=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/bam/bam3_realign.sh
+SCR_DEDUP=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/bam/bam4_dedup.sh
 
-SCR_VARDISC=/datacommons/yoderlab/users/jelmer/scripts/geno/gatk/gatk1_vardisc.sh
-SCR_GENO=/datacommons/yoderlab/users/jelmer/scripts/geno/gatk/gatk2_jointgeno.sh
+SCR_VARDISC=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/gatk/gatk1_vardisc.sh
+SCR_GENO=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/gatk/gatk2_jointgeno.sh
 
-SCR_FILTER=/datacommons/yoderlab/users/jelmer/scripts/geno/vcf/filterVCF_FS6.sh
+SCR_FILTER=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/vcf/filterVCF_FS6.sh
 
-SCR_QCVCF=/datacommons/yoderlab/users/jelmer/scripts/qc/qc_vcf.sh
-SCR_QCBAM=/datacommons/yoderlab/users/jelmer/scripts/qc/qc_bam.sh
+SCR_QCVCF=/datacommons/yoderlab/users/jelmer/scripts/genomics/qc/qc_vcf.sh
+SCR_QCBAM=/datacommons/yoderlab/users/jelmer/scripts/genomics/qc/qc_bam.sh
 
 ## Software:
 JAVA=/datacommons/yoderlab/programs/java_1.8.0/jre1.8.0_144/bin/java

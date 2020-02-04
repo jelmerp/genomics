@@ -7,10 +7,10 @@ set -u
 #### SET-UP ####
 ################################################################################
 ## Scripts:
-SCRIPT_VCF2FASTA=/datacommons/yoderlab/users/jelmer/scripts/conversion/vcf2fasta.sh
-SCRIPT_FASTA2NEXUS=/datacommons/yoderlab/users/jelmer/scripts/conversion/convert2nexus.sh
-SPIDFILE=/datacommons/yoderlab/users/jelmer/scripts/conversion/fasta2nexus.spid
-SCRIPT_SPLITSTREE=/datacommons/yoderlab/users/jelmer/scripts/splitstree/splitstree_run.sh
+SCRIPT_VCF2FASTA=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/vcf2fasta.sh
+SCRIPT_FASTA2NEXUS=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/convert2nexus.sh
+SPIDFILE=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/fasta2nexus.spid
+SCRIPT_SPLITSTREE=/datacommons/yoderlab/users/jelmer/scripts/genomics/splitstree/splitstree_run.sh
 
 ## Command-line args:
 FILE_ID=$1

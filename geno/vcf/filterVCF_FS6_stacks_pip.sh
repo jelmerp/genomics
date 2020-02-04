@@ -7,7 +7,7 @@ set -u
 #### SET-UP ####
 ################################################################################
 ## Scripts:
-SCRIPT_FILTER=/datacommons/yoderlab/users/jelmer/scripts/geno/vcf/filterVCF_FS6_stacks.sh
+SCRIPT_FILTER=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/vcf/filterVCF_FS6_stacks.sh
 BGZIP=/datacommons/yoderlab/programs/htslib-1.6/bgzip
 TABIX=/datacommons/yoderlab/programs/htslib-1.6/tabix
 
@@ -220,6 +220,8 @@ then
 		--mem ${MEM}G -p common,yoderlab,scavenger -o slurm.filterstacksvcf.$OUTPUT_NAME_MAC_LO \
 		$SCRIPT_FILTER $INPUT_NAME $OUTPUT_NAME_MAC_LO $IN_DIR $OUT_DIR $QC_DIR $BAM_DIR $BAM_SUFFIX \
 		$REF $DP_MEAN $MAC_LO $FILTER_INDS_BY_MISSING $INDFILE $INDSEL_ID $SCAF_FILE $MEM $SKIP_FINAL_STEPS
+
+	sleep 5m
 fi
 
 

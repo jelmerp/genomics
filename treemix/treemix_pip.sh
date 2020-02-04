@@ -7,8 +7,8 @@ set -u
 #### SET-UP ####
 ################################################################################
 ## Scripts and software:
-SCRIPT_VCF2TREEMIX=/datacommons/yoderlab/users/jelmer/scripts/conversion/vcf2treemix.sh
-SCRIPT_TREEMIX=/datacommons/yoderlab/users/jelmer/scripts/treemix/treemix_run.sh
+SCRIPT_VCF2TREEMIX=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/vcf2treemix.sh
+SCRIPT_TREEMIX=/datacommons/yoderlab/users/jelmer/scripts/genomics/treemix/treemix_run.sh
 
 ## Command-line args:
 FILE_ID=$1 # VCF file ID (File should be $VCF_DIR/$FILE_ID.vcf.gz

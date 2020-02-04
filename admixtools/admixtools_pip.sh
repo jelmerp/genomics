@@ -7,8 +7,8 @@ set -u
 #### SET-UP ####
 ################################################################################
 ## Software and scripts:
-SCRIPT_PREPINPUT=/datacommons/yoderlab/users/jelmer/scripts/admixtools/admixtools_prepInput.sh
-SCRIPT_ATOOLS=/datacommons/yoderlab/users/jelmer/scripts/admixtools/admixtools_run.sh
+SCRIPT_PREPINPUT=/datacommons/yoderlab/users/jelmer/scripts/genomics/admixtools/admixtools_prepInput.sh
+SCRIPT_ATOOLS=/datacommons/yoderlab/users/jelmer/scripts/genomics/admixtools/admixtools_run.sh
 
 ## Positional args:
 FILE_ID=$1
@@ -39,10 +39,10 @@ ID_COLUMN=$1
 shift
 GROUPBY=$1
 shift
-SELECT_INDS=$1
-shift
-INDLIST=$1
-shift
+#SELECT_INDS=$1
+#shift
+#INDLIST=$1
+#shift
 
 ## Process:
 FILE_ID_FULL=${FILE_ID}$RUN_ID
@@ -77,9 +77,9 @@ echo "#### admixtools_pip.sh: Metadata file: $INDS_METADATA"
 echo "#### admixtools_pip.sh: ID column: $ID_COLUMN"
 echo "#### admixtools_pip.sh: Group-by column: $GROUPBY"
 printf "\n"
-echo "#### admixtools_pip.sh: Select inds (TRUE/FALSE): $SELECT_INDS"
-echo "#### admixtools_pip.sh: List with indivividuals to select: $INDLIST"
-printf "\n"
+#echo "#### admixtools_pip.sh: Select inds (TRUE/FALSE): $SELECT_INDS"
+#echo "#### admixtools_pip.sh: List with indivividuals to select: $INDLIST"
+#printf "\n"
 echo "#### admixtools_pip.sh: Indfile (output): $INDFILE"
 echo "#### admixtools_pip.sh: Popfile (input): $POPFILE"
 echo "#### admixtools_pip.sh: Parfile: $PARFILE"
@@ -91,7 +91,7 @@ printf "\n"
 ################################################################################
 echo "#### admixtools_pip.sh: Calling script to prep input files..."
 $SCRIPT_PREPINPUT $FILE_ID $VCF_DIR $PLINK_DIR $VCF2PLINK $CREATE_INDFILE $SUBSET_INDFILE \
-	$INDFILE $POPFILE $PARFILE $ATOOLS_MODE $INDS_METADATA $ID_COLUMN $GROUPBY $SELECT_INDS $INDLIST
+	$INDFILE $POPFILE $PARFILE $ATOOLS_MODE $INDS_METADATA $ID_COLUMN $GROUPBY
 
 
 ################################################################################

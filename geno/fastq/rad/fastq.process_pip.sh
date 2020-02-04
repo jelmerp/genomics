@@ -7,13 +7,13 @@ set -u
 #### SET-UP ####
 ################################################################################
 ## Scripts:
-SCRIPT_FLIP_PERL=/datacommons/yoderlab/users/jelmer/scripts/geno/fastq/flip_trim_sbfI_170601.pl
-SCRIPT_FLIP_BASH=/datacommons/yoderlab/users/jelmer/scripts/geno/fastq/flipreads.sh
-SCRIPT_DEMULT=/datacommons/yoderlab/users/jelmer/scripts/geno/fastq/demultiplex.sh
-SCRIPT_DEDUP_TRIM=/datacommons/yoderlab/users/jelmer/scripts/geno/fastq/dedup.trim.sh
-SCRIPT_QC_FASTQ=/datacommons/yoderlab/users/jelmer/scripts/qc/qc_fastq.sh
-SCRIPT_STATS_FASTQ=/datacommons/yoderlab/users/jelmer/scripts/qc/qc_fastq.stats.sh
-SCRIPT_CHECKBARCODES=/datacommons/yoderlab/users/jelmer/scripts/geno/fastq/checkbarcodes.sh
+SCRIPT_FLIP_PERL=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/fastq/flip_trim_sbfI_170601.pl
+SCRIPT_FLIP_BASH=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/fastq/flipreads.sh
+SCRIPT_DEMULT=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/fastq/demultiplex.sh
+SCRIPT_DEDUP_TRIM=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/fastq/dedup.trim.sh
+SCRIPT_QC_FASTQ=/datacommons/yoderlab/users/jelmer/scripts/genomics/qc/qc_fastq.sh
+SCRIPT_STATS_FASTQ=/datacommons/yoderlab/users/jelmer/scripts/genomics/qc/qc_fastq.stats.sh
+SCRIPT_CHECKBARCODES=/datacommons/yoderlab/users/jelmer/scripts/genomics/geno/fastq/checkbarcodes.sh
 
 ## Hardcoded variables:
 ADAPTER_FILE=/datacommons/yoderlab/programs/Trimmomatic-0.36/adapters/all.fa # For trimmomatic

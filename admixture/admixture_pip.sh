@@ -7,8 +7,8 @@ set -u
 #### SET-UP ####
 ################################################################################
 ## Scripts:
-SCRIPT_VCF2PLINK=/datacommons/yoderlab/users/jelmer/scripts/conversion/vcf2plink.sh
-SCRIPT_ADMIXTURE_RUN=/datacommons/yoderlab/users/jelmer/scripts/admixture/admixture_run.sh
+SCRIPT_VCF2PLINK=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/vcf2plink.sh
+SCRIPT_ADMIXTURE_RUN=/datacommons/yoderlab/users/jelmer/scripts/genomics/admixture/admixture_run.sh
 
 ## Positional args:
 FILE_ID=$1

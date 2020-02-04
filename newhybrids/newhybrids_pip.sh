@@ -7,8 +7,8 @@ set -u
 ##### SETUP #####
 ################################################################################
 ## Software & scripts:
-SCRIPT_CONVERT=/datacommons/yoderlab/users/jelmer/scripts/conversion/vcf2newhybrids.sh
-SCRIPT_NEWHYBRIDS=/datacommons/yoderlab/users/jelmer/scripts/newhybrids/newhybrids_run.sh
+SCRIPT_CONVERT=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/vcf2newhybrids.sh
+SCRIPT_NEWHYBRIDS=/datacommons/yoderlab/users/jelmer/scripts/genomics/newhybrids/newhybrids_run.sh
 
 ## Positional args:
 RUN_ID=$1
@@ -33,7 +33,7 @@ printf "\n"
 ################################################################################
 ##### CONVERT VCF TO NEWHYBRIDS #####
 ################################################################################
-SPIDFILE=/datacommons/yoderlab/users/jelmer/scripts/conversion/vcf2newhybrids.spid
+SPIDFILE=/datacommons/yoderlab/users/jelmer/scripts/genomics/conversion/vcf2newhybrids.spid
 echo "##### newhybrids_pip.sh: Input format: $INFORMAT"
 echo "##### newhybrids_pip.sh: SPID-file: $SPIDFILE"
 printf "\n"
