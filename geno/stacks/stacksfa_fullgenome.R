@@ -5,9 +5,12 @@
 ################################################################################
 cat('\n######################################################################\n')
 cat('#### stacksfa_fullgenome.R: Starting script.\n\n')
-suppressMessages(library(tidyverse))
-suppressMessages(library(valr))
-suppressMessages(library(seqRFLP))
+
+## Packages:
+if(!'pacman' %in% rownames(installed.packages())) install.packages('pacman')
+library(pacman)
+packages <- c('tidyverse', 'valr', 'seqRFLP')
+p_load(char = packages, install = TRUE)
 
 ## Command-line args:
 options(warn = 1)
