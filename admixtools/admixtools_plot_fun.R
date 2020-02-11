@@ -1,20 +1,14 @@
-## According to qpDstat:
-# Positive D: gene flow between 1 and 3
-# Negative D: gene flow between 2 and 3
-
-## Formula:
-# Positive D =  more ABBA = gene flow between 2 and 3
 # calcD <- function(ABBA, BABA) { (ABBA - BABA) / (ABBA + BABA) }
-# calcD(154728, 111720)
-# calcD(124562, 316312)
 
-#### LIBRARIES -----------------------------------------------------------------
-suppressPackageStartupMessages(library(ggpubr))
-suppressPackageStartupMessages(library(cowplot))
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(forcats))
+#### PACKAGES ------------------------------------------------------------------
+if(!'pacman' %in% rownames(installed.packages())) install.packages('pacman')
+library(pacman)
+packages <- c('ggpubr', 'cowplot', 'tidyverse', 'forcats', 'here')
+p_load(char = packages, install = TRUE)
 
-#### RETURN DFs ----------------------------------------------------------------
+
+#### FUNCTIONS TO RETURN DFs FROM ADMIXTOOLS OUTPUT ----------------------------
+## D-statistics:
 prep_d <- function(atools_file, sort = TRUE,
                    running_mode = 'dmode',
                    include_outgroup = FALSE) {
@@ -44,10 +38,10 @@ prep_d <- function(atools_file, sort = TRUE,
   return(output)
 }
 
-prep_f4r <- function(fileID) {
-  outputfile <- paste0('analyses/admixtools/output/', fileID, '.f4ratio.out')
+## f4-ratio:
+prep_f4r <- function(atools_file) {
 
-  output <- read.delim(outputfile, sep = "", header = FALSE)
+  output <- read.delim(atools_file, sep = "", header = FALSE)
   output <- output[, -c(1, 6:8, 10)]
   colnames(output) <- c('popA', 'popD', 'popX', 'popC', 'popB', 'alpha', 'se', 'Z')
   output <- output[, c('popA', 'popB', 'popX', 'popC', 'popD', 'alpha', 'se', 'Z')]
@@ -64,9 +58,9 @@ prep_f4r <- function(fileID) {
   return(output)
 }
 
-prep_f3 <- function(fileID) {
-  outputfile <- paste0('analyses/admixtools/output/', fileID, '.f3.out')
-  output <- read.delim(outputfile, sep = "", header = FALSE)
+## f3-test:
+prep_f3 <- function(atools_file) {
+  output <- read.delim(atools_file, sep = "", header = FALSE)
   output <- output[, -1]
   colnames(output) <- c('popA', 'popB', 'popX', 'f3', 'se', 'Z', 'nrSNPs')
   output <- output %>% mutate(f3 = round(f3, 3), se = round(se, 5), Z = round(Z, 2))
@@ -74,7 +68,8 @@ prep_f3 <- function(fileID) {
 }
 
 
-#### PLOT ----------------------------------------------------------------------
+#### PLOTTING FUNCTIONS --------------------------------------------------------
+## Plot D-statistics:
 plot_d <- function(d,
                    autosort = TRUE,
                    marg_sig = FALSE,
@@ -156,17 +151,23 @@ plot_d <- function(d,
   return(p)
 }
 
-plot_f4r <- function(f.df, ylims = c(0, 1.05), alpha.breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
-                     figfile = NULL, figsave = FALSE) {
+## Plot f4-ratio test:
+plot_f4r <- function(f_df,
+                     ylims = c(0, 1.05),
+                     alpha_breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
+                     figsave = FALSE, figfile = NULL) {
 
-  p <- ggplot(f.df, aes(x = popcomb, y = alpha)) +
-    geom_pointrange(aes(ymax = f.df$alpha + f.df$se, ymin = f.df$alpha - f.df$se, colour = sig)) +
+  p <- ggplot(f_df, aes(x = popcomb, y = alpha)) +
+    geom_pointrange(aes(ymax = f_df$alpha + f_df$se,
+                        ymin = f_df$alpha - f_df$se, colour = sig)) +
     geom_hline(yintercept = 0, colour = 'grey40') +
     geom_hline(yintercept = 1, colour = 'grey40') +
-    scale_colour_manual(values = c('black', 'red'), labels = c('|Z| < 3', '|Z| > 3'), name = '') +
+    scale_colour_manual(values = c('black', 'red'),
+                        labels = c('|Z| < 3', '|Z| > 3'),
+                        name = '') +
     coord_flip() +
     labs(y = expression(paste(alpha, " (prop. P2 ancestry in Px)"))) +
-    scale_y_continuous(limits = ylims, breaks = alpha.breaks) +
+    scale_y_continuous(limits = ylims, breaks = alpha_breaks) +
     theme_bw() +
     theme(panel.border = element_rect(colour = 'grey20', size = 1),
           axis.text.x = element_text(size = 18),
@@ -184,6 +185,5 @@ plot_f4r <- function(f.df, ylims = c(0, 1.05), alpha.breaks = c(0, 0.2, 0.4, 0.6
     ggsave(figfile, p, width = 9, height = 7)
     system(paste('xdg-open', figfile))
   }
-  print(p)
   return(p)
 }

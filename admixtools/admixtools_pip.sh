@@ -38,11 +38,6 @@ shift
 ID_COLUMN=$1
 shift
 GROUPBY=$1
-shift
-#SELECT_INDS=$1
-#shift
-#INDLIST=$1
-#shift
 
 ## Process:
 FILE_ID_FULL=${FILE_ID}$RUN_ID
@@ -77,9 +72,6 @@ echo "#### admixtools_pip.sh: Metadata file: $INDS_METADATA"
 echo "#### admixtools_pip.sh: ID column: $ID_COLUMN"
 echo "#### admixtools_pip.sh: Group-by column: $GROUPBY"
 printf "\n"
-#echo "#### admixtools_pip.sh: Select inds (TRUE/FALSE): $SELECT_INDS"
-#echo "#### admixtools_pip.sh: List with indivividuals to select: $INDLIST"
-#printf "\n"
 echo "#### admixtools_pip.sh: Indfile (output): $INDFILE"
 echo "#### admixtools_pip.sh: Popfile (input): $POPFILE"
 echo "#### admixtools_pip.sh: Parfile: $PARFILE"
@@ -120,11 +112,12 @@ then
 fi
 
 
-## F4-mode: ## TO DO ##
+## F4-mode: ## HAVE YET TO IMPLEMENT THIS ##
 if [ $ATOOLS_MODE == "F4" ]
 then
-	echo "#### admixtools_pip.sh: Running admixtools in F4 mode:"
-	OUTPUT=$OUTDIR/$FILE_ID_FULL.f4mode.out
+	echo -e "\n\n#### admixtools_pip.sh: F4-mode not yet implemented\n\n"
+	#echo "#### admixtools_pip.sh: Running admixtools in F4 mode:"
+	#OUTPUT=$OUTDIR/$FILE_ID_FULL.f4mode.out
 fi
 	
 
@@ -140,7 +133,7 @@ then
 fi
 
 
-## F3-mode:
+## F4-ratio-mode:
 if [ $ATOOLS_MODE == "F4RATIO" ]
 then
 	OUTPUT=$OUTDIR/$FILE_ID_FULL.f4ratio.out

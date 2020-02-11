@@ -40,10 +40,6 @@ ID_COLUMN=$1
 shift
 GROUPBY=$1
 shift
-#SELECT_INDS=$1
-#shift
-#INDLIST=$1
-#shift
 
 ## Process:
 VCF=$VCF_DIR/$FILE_ID.vcf.gz # input file
@@ -73,29 +69,6 @@ echo "#### admixtools_prepinput.sh: Inds metadata (optional): $INDS_METADATA"
 echo "#### admixtools_prepinput.sh: ID column: $ID_COLUMN"
 echo "#### admixtools_prepinput.sh: Group-by column: $GROUPBY"
 printf "\n"
-#echo "#### admixtools_pip.sh: Select inds (TRUE/FALSE): $SELECT_INDS"
-#echo "#### admixtools_pip.sh: List with indivividuals to select: $INDLIST"
-#printf "\n"
-
-
-################################################################################
-#### EXTRACT INDS FROM VCF ####
-################################################################################
-#if [ $SELECT_INDS == TRUE ]
-#then
-#	echo "#### Extracting requested individuals from VCF..."
-#	echo "#### Inds: $INDS"
-#	echo "#### MAF: $MAF"
-#	echo "#### Master VCF File: $VCF_MASTER"
-#	$SPLITVCF_SCRIPT $INDS $VCF_MASTER $VCF $MAF
-#	printf "\n"
-#else
-#	echo "#### Not selecting individuals from VCF file."
-#fi
-
-#echo "#### Testing for presence of vcf file:"
-#ls -lh $VCF
-#printf "\n"
 
 
 ################################################################################
