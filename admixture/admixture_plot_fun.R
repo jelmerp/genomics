@@ -1,4 +1,5 @@
 #### LOAD PACKAGES -------------------------------------------------------------
+if(!'pacman' %in% rownames(installed.packages())) install.packages('pacman')
 library(pacman)
 packages <- c('gridExtra', 'grid', 'RColorBrewer', 'scales',
               'ggpubr', 'cowplot', 'ggforce', 'patchwork',
