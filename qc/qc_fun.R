@@ -1,48 +1,5 @@
-
-
-
-ggbox <- function(my.df, my.y, my.x = 'species.short',
-                  ytitle = '', xtitle = NULL, ptitle = NULL, xlabs = NULL,
-                  saveplot = TRUE, figdir = 'qc/plots/') {
-
-  p <- ggplot(data = my.df) +
-    geom_boxplot(aes_string(x = my.x, y = my.y),
-                 outlier.color = NA) +
-    geom_jitter(aes_string(x = my.x, y = my.y),
-                width = 0.05, colour = 'grey30', size = 1.5) +
-    labs(y = ytitle) +
-    theme(
-      axis.text.x = element_text(size = 16),
-      axis.text.y = element_text(size = 16),
-      axis.title.x = element_text(size = 18),
-      axis.title.y = element_text(size = 18),
-      plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm"),
-      plot.title = element_text(hjust = 0.5, size = 24)
-      )
-
-  if(!is.null(xlabs)) p <- p + scale_x_discrete(labels = xlabs)
-  if(!is.null(xtitle)) p <- p + labs(y = ytitle, x = xtitle)
-  if(!is.null(ptitle)) p <- p + ggtitle(ptitle)
-
-  if(saveplot == TRUE) {
-    figfile <- paste0(figdir, '/', my.y, '.png')
-    ggsave(figfile, p, width = 6, height = 6)
-    system(paste('xdg-open', figfile))
-  }
-  return(p)
-}
-
-read.flagstats.all <- function(IDs = IDs.long, rawbam = TRUE) {
-  flagstats <- data.frame(
-    do.call(rbind, lapply(IDs, read.flagstats, rawbam = rawbam)), stringsAsFactors = FALSE
-  )
-  colnames(flagstats) <- c('ID', 'bam.flag.total', 'bam.flag.mapped',
-                           'bam.flag.paired', 'bam.flag.proppaired')
-  integer_cols <- c('bam.flag.total', 'bam.flag.mapped', 'bam.flag.paired', 'bam.flag.proppaired')
-  flagstats[, integer_cols] <- lapply(flagstats[, integer_cols], as.integer)
-  return(flagstats)
-}
-
+#### PROCESS SAMTOOLS FLAGSTAT OUTPUT ------------------------------------------
+## Process a single file:
 read.flagstats <- function(ID, rawbam = TRUE, bamdir = 'qc/bam/') {
   if(rawbam == TRUE) infile_flagstats <- paste0(bamdir, '/', ID, '.rawbam.samtools-flagstat.txt')
   if(rawbam == FALSE) infile_flagstats <- paste0(bamdir, '/', ID, '.samtools-flagstat.txt')
@@ -56,6 +13,20 @@ read.flagstats <- function(ID, rawbam = TRUE, bamdir = 'qc/bam/') {
   return(c(ID, bam.flag.total, bam.flag.mapped, bam.flag.paired, bam.flag.proppaired))
 }
 
+## Wrapper to process multiple files:
+read.flagstats.all <- function(IDs = IDs.long, rawbam = TRUE) {
+  flagstats <- data.frame(
+    do.call(rbind, lapply(IDs, read.flagstats, rawbam = rawbam)), stringsAsFactors = FALSE
+  )
+  colnames(flagstats) <- c('ID', 'bam.flag.total', 'bam.flag.mapped',
+                           'bam.flag.paired', 'bam.flag.proppaired')
+  integer_cols <- c('bam.flag.total', 'bam.flag.mapped', 'bam.flag.paired', 'bam.flag.proppaired')
+  flagstats[, integer_cols] <- lapply(flagstats[, integer_cols], as.integer)
+  return(flagstats)
+}
+
+#### PROCESS FASTQ STATS -------------------------------------------------------
+## Process a single file:
 read.fastqstats <- function(ID, read) {
   infile_fastqstats <- paste0(dir_fastqstats, '/', ID, '.', read, '.fastqstats.txt')
   fastqstats <- read.delim(infile_fastqstats, header = FALSE, as.is = TRUE) %>%
@@ -64,6 +35,7 @@ read.fastqstats <- function(ID, read) {
   return(c(ID, read, fastqstats))
 }
 
+## Wrapper to process multiple files:
 read.fastqstats.all <- function(IDs = IDs.long, read = 'R1') {
   fastqstats <- data.frame(
     do.call(rbind, lapply(IDs, read.fastqstats, read = read)), stringsAsFactors = FALSE
@@ -83,6 +55,8 @@ read.fastqstats.all <- function(IDs = IDs.long, read = 'R1') {
   return(fastqstats)
 }
 
+#### PROCESS EA-UTILS BAM STATS ------------------------------------------------
+## Process a single file:
 read.bamstats <- function(ID,
                           my.colnames.initial = bamstats.colnames.initial,
                           rawbam = TRUE) {
@@ -111,6 +85,7 @@ read.bamstats <- function(ID,
   return(bamstats.df)
 }
 
+## Wrapper to process multiple files:
 read.bamstats.all <- function(IDs, my.colnames.final = bamstats.colnames.final) {
   bamstats <- as.data.frame(do.call(rbind, lapply(IDs, read.bamstats)))
   colnames(bamstats) <- c('ID', my.colnames.final)
@@ -120,4 +95,37 @@ read.bamstats.all <- function(IDs, my.colnames.final = bamstats.colnames.final) 
   bamstats$mapq.mean <- as.numeric(bamstats$mapq.mean)
 
   return(bamstats)
+}
+
+
+## Create a boxplot comparing stats across species:
+ggbox <- function(my.df, my.y, my.x = 'species.short',
+                  ytitle = '', xtitle = NULL, ptitle = NULL, xlabs = NULL,
+                  saveplot = TRUE, figdir = 'qc/plots/') {
+
+  p <- ggplot(data = my.df) +
+    geom_boxplot(aes_string(x = my.x, y = my.y),
+                 outlier.color = NA) +
+    geom_jitter(aes_string(x = my.x, y = my.y),
+                width = 0.05, colour = 'grey30', size = 1.5) +
+    labs(y = ytitle) +
+    theme(
+      axis.text.x = element_text(size = 16),
+      axis.text.y = element_text(size = 16),
+      axis.title.x = element_text(size = 18),
+      axis.title.y = element_text(size = 18),
+      plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm"),
+      plot.title = element_text(hjust = 0.5, size = 24)
+    )
+
+  if(!is.null(xlabs)) p <- p + scale_x_discrete(labels = xlabs)
+  if(!is.null(xtitle)) p <- p + labs(y = ytitle, x = xtitle)
+  if(!is.null(ptitle)) p <- p + ggtitle(ptitle)
+
+  if(saveplot == TRUE) {
+    figfile <- paste0(figdir, '/', my.y, '.png')
+    ggsave(figfile, p, width = 6, height = 6)
+    system(paste('xdg-open', figfile))
+  }
+  return(p)
 }
