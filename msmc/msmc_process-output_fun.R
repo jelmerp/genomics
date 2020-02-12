@@ -1,19 +1,13 @@
-################################################################################
-###### SET-UP ######
-################################################################################
-library(plyr)
-library(reshape2)
-library(ggplot2)
-library(gridExtra)
-library(lazyeval)
-library(dplyr)
-library(RColorBrewer)
+#### SET-UP --------------------------------------------------------------------
+if(!'pacman' %in% rownames(installed.packages())) install.packages('pacman')
+library(pacman)
+packages <- c('plyr', 'reshape2', 'ggplot2', 'lazyeval',
+              'dplyr', 'gridExtra', 'RColorBrewer')
+p_load(char = packages, install = TRUE)
 
 
-################################################################################
-###### FUNCTION: select_files() ######
-################################################################################
-
+#### select_files() function --------------------------------------------------
+## Args:
 # ID.lookup: TRUE if function should grep for string given, FALSE if it should use pops.msmc/pops.legend lookup.
 # to.select = individual or population ID or "all", meaning all files
 
@@ -52,11 +46,8 @@ select_files <- function(msmc_mode = 'ind', to.select = 'all', ID.lookup = FALSE
 }
 
 
-################################################################################
-###### FUNCTIONS: read_msmc_base() and read_msmc() ######
-################################################################################
-
-## Read msmc output and prepare for plotting:
+#### FUNCTIONS: read_msmc_base() and read_msmc() -------------------------------
+## read_msmc_base(): Read msmc output and prepare for plotting:
 read_msmc_base <- function(filename, ID.add = NULL, setname = NULL, pop = NULL,
                            mutrate = mutrate.yr.a, gen.time = gentime,
                            skip_tail = 4, skip_head = 4) {
@@ -92,7 +83,7 @@ read_msmc_base <- function(filename, ID.add = NULL, setname = NULL, pop = NULL,
   return(msmc)
 }
 
-# Single or several file reading:
+# read_msmc(): Read a single or multiple MSMC output files:
 read_msmc <- function(filename, ID.add = NULL, setname = NULL, pop = NULL,
                       mutrate = mutrate.yr.a, gen.time = gentime,
                       skip_tail = 4, skip_head = 4) {
@@ -112,9 +103,7 @@ read_msmc <- function(filename, ID.add = NULL, setname = NULL, pop = NULL,
 }
 
 
-################################################################################
-###### FUNCTIONS: plot_msmc ######
-################################################################################
+#### plot_msmc() function ------------------------------------------------------
 plot_msmc <- function(msmc_output, col.by = 'ID', my.cols = NULL,
                       linetype.by = 'fixed', lwd = 1.2,
                       ylim = NULL, xlim = NULL, log.x = TRUE, log.y = FALSE,
@@ -227,9 +216,6 @@ plot_msmc <- function(msmc_output, col.by = 'ID', my.cols = NULL,
     } else {
       p <- p + scale_x_log10(breaks = my.xticks, labels = my.xtext, limits = xlim)
     }
-    #p <- p + scale_x_log10(breaks = my.xticks, labels = my.xtext)
-    #p <- p + coord_cartesian(xlim = xlim)
-
   }
 
   ## Log y-scale:
